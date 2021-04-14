@@ -1,5 +1,27 @@
-@tailwind base;
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
 
-@tailwind components;
+ .navbar {
+     @apply flex justify-center items-center fixed w-full space-x-4 p-4 top-0 h-16 px-4 font-mono bg-gray-100 dark:bg-gray-800 dark:text-white transition-colors duration-700 ease-out
+ }
 
-@tailwind utilities;
+ .light-dark-btn {
+     @apply flex items-center absolute inset-y-0 right-0
+ }
+
+ .nameProJect {
+     @apply flex items-center absolute inset-y-0 left-0 ml-5 font-mono font-medium text-2xl animate-pulse
+ }
+
+ .btn {
+     @apply px-6 py-1 mt-2 ring-1 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none focus:ring-black;
+ }
+
+ .bg-darkteme {
+     @apply dark:bg-gray-900 dark:text-gray-300 transition-colors duration-700 ease-out
+ }
+
+ .textArea{
+     @apply ring-1 ring-gray-300 rounded-sm shadow-sm px-4 py-2 w-full mt-4 h-40 dark:bg-gray-500 transition-colors duration-700 ease-out 
+ }
