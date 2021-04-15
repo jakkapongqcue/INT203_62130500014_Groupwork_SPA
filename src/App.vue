@@ -1,27 +1,20 @@
 <template>
-  <div class="navbar">
-    <router-link to="/" class="nameProJect p-5">Minimal Notes</router-link>
-    <router-link to="/" class="p-5">Home</router-link>
-    <p>|</p>
-    <router-link to="/about" class="p-5">About</router-link>
-    <div class="light-dark-btn"> 
-      <button :class="{ hidden: !changeMode }" @click="switchMode" class="p-3 mr-3 ">
-        <i class="material-icons">light_mode</i>
-      </button>
-      <button :class="{ hidden: changeMode }" @click="switchMode" class="p-3 mr-3 ">
-        <i class="material-icons">dark_mode</i>
-      </button>
-    </div>
-  </div>
+  <nav-bar @switch-mode="switchMode"></nav-bar>
   <router-view />
 </template>
 
 <script>
+import NavBar from './components/NavBar.vue';
+
 export default {
+  components: { NavBar },
   data() {
     return {
       changeMode: false,
     };
+  },
+  computed: {
+    NavBar
   },
   methods: {
     switchMode() {
@@ -32,8 +25,7 @@ export default {
         localStorage.theme = "dark";
       }
       if (
-        localStorage.theme === "dark" ||
-        (!("theme" in localStorage) &&
+        localStorage.theme === "dark" || (!("theme" in localStorage) &&
           window.matchMedia("(prefers-color-scheme: dark)").matches)
       ) {
         document.documentElement.classList.add("dark");

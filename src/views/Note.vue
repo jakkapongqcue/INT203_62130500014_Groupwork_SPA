@@ -1,11 +1,10 @@
 <template>
-  <dir class="p-0 m-0">
+
     <add-card>
       <div class="flex text-sm mt-2">
         <button
           class="inline-flex items-center focus:outline-none"
-          @click="focusIn"
-        >
+          @click="focusIn" >
           <i class="material-icons mr-3">add</i>
           <p class="font-mono ">Click to add task</p>
         </button>
@@ -14,10 +13,7 @@
         <textarea
           placeholder="insert your note .."
           class="textArea ring-1 ring-gray-300"
-          :class="{
-            'bg-red-50 ring-red-500': invalidInput,
-            'ring-blue-500': !invalidInput,
-          }"
+          :class="{'bg-red-50 ring-red-500': invalidInput,'ring-blue-500': !invalidInput}"
           type="text"
           v-model="noteText"
           @blur="validating"
@@ -26,23 +22,19 @@
       </form>
     </add-card>
 
-    <!-- <div :class="{ hidden: showNotes }">
-      <span class="material-icons animate-spin delay-300:hidden">
-        autorenew </span
-      >Processing
-    </div> -->
     <!-- 00000000000000000000000000000000000000000000000000000000000000000 -->
+    
     <div class="flex flex-wrap justify-center ">
       <note-card v-for="notes in NoteBooks" :key="notes.datetime">
-        <dir class="flex p-0 border-b">
+        <div class="flex p-0 border-b">
           <span class="font-mono text-sm">Date: {{ notes.datetime }}</span>
-          <button @click="showData(notes)" class="ml-auto">
+          <button class="ml-auto">
             <span class="material-icons">edit</span>
           </button>
           <button @click="deleteData(notes.id)" class="ml-auto">
             <i class="material-icons">delete</i>
           </button>
-        </dir>
+        </div>
         <ul>
           <li>
             <span>{{ notes.note }}</span>
@@ -50,7 +42,7 @@
         </ul>
       </note-card>
     </div>
-  </dir>
+
 </template>
 
 <script>
@@ -60,9 +52,9 @@ export default {
   components: {
     AddCard,
   },
-  props: {},
   data() {
     return {
+      url: "http://localhost:5000/NoteBooks",
       noteText: "",
       datetime: "",
       invalidInput: false,
@@ -74,24 +66,87 @@ export default {
       this.invalidInput = this.noteText === "" ? true : false;
       var time = new Date();
       if (this.noteText !== "") {
-        this.NoteBooks.push({
-          datetime: time.toLocaleString("en-GB", { hour12: true }),
-          note: this.noteText,
-        });
+        // this.NoteBooks.push({
+        //   datetime: time.toLocaleString("en-GB", { hour12: true }),
+        //   note: this.noteText,
+        // });
+       
+      this.addNewNote({
+            datetime: time.toLocaleString("en-GB", { hour12: true }),
+            note: this.noteText,
+      });
+      
       }
-      for (const i of this.NoteBooks) {
-        console.log(`date-time: ${i.datetime}  note: ${i.note}`);
-      }
-      console.log("yess");
-    },
+      this.noteText = "";
+      this.datetime = "";
 
+      //   for (const i of this.NoteBooks) {
+      //     console.log(`date-time: ${i.datetime}  note: ${i.note}`);
+      //   }
+      //   console.log("yess");
+    },
+  
     validating() {
       this.invalidInput = this.noteText === "" ? true : false;
     },
     focusIn() {
       this.invalidInput = !this.invalidInput === "" ? true : false;
     },
-  }
+    showData(oldNote) {
+      this.isEdit = true;
+      this.editId = oldNote.id;
+      this.noteText = oldNote.note;
+      this.datetime = oldNote.datetime;
+    },
+
+    
+
+    async getNoteResult() {
+      try {
+        const res = await fetch(this.url);
+        const data = res.json();
+        return data;
+      } catch (error) {
+        console.log(`Could not save! ${error}`);
+      }
+    },
+
+    async deleteData(deleteid) {
+      try {
+        await fetch(`${this.url}/${deleteid}`, {
+          method: "DELETE",
+        });
+        this.NoteBooks = this.NoteBooks.filter(
+          (suvrey) => suvrey.id !== deleteid
+        );
+      } catch (error) {
+        console.log(`Could not save! ${error}`);
+      }
+    },
+
+    async addNewNote(newNote) {
+      try {
+        const res = await fetch(this.url, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            note: newNote.note,
+            datetime: newNote.datetime,
+          }),
+        });
+        const data = await res.json();
+        this.NoteBooks = [...this.NoteBooks, data];
+      } catch (error) {
+        console.log(`Could not save! ${error}`);
+      }
+    },
+  },
+
+  async created() {
+    this.NoteBooks = await this.getNoteResult();
+  },
 };
 </script>
 
