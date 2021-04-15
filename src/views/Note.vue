@@ -58,10 +58,18 @@ export default {
         //   datetime: time.toLocaleString("en-GB", { hour12: true }),
         //   note: this.noteText,
         // });
-      this.addNewNote({
+        if (this.isEdit) {
+          this.editNote({
+            id: this.editId,
             datetime: time.toLocaleString("en-GB", { hour12: true }),
             note: this.noteText,
-      });
+          });
+        } else {
+          this.addNewNote({
+            datetime: time.toLocaleString("en-GB", { hour12: true }),
+            note: this.noteText,
+          });
+        }
       }
       this.noteText = "";
       this.datetime = "";
@@ -83,6 +91,33 @@ export default {
       this.editId = oldNote.id;
       this.noteText = oldNote.note;
       this.datetime = oldNote.datetime;
+    },
+
+    async editNote(editingNote) {
+      try {
+        const res = await fetch(`${this.url}/${editingNote.id}`, {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            note: editingNote.note,
+            datetime: editingNote.datetime,
+          }),
+        });
+        const data = await res.json();
+        this.NoteBooks = this.NoteBooks.map((survey) =>
+          survey.id === editingNote.id
+            ? { ...survey, note: data.note, datetime: data.datetime }
+            : survey
+        );
+        this.isEdit = false;
+        this.editId = "";
+        this.noteText = "";
+        this.datetime = "";
+      } catch (error) {
+        console.log(`Could not edit! ${error}`);
+      }
     },
 
     async getNoteResult() {
