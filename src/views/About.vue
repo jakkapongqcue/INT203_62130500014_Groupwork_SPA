@@ -10,24 +10,27 @@
       </div>
       <div class="flex bg-white dark:bg-gray-900 p-10">
         <div class="mb-auto mt-auto max-w-lg">
-          <h1 class="text-3xl uppercase">Jakkapng Praditthanachot</h1>
+          <h1 class="text-3xl uppercase">{{name}}</h1>
           <p class="font-semibold mb-5">KMUTT, SIT</p>
-          <p>Date: {{ datetime }}</p>
+          <p class="font-mono">Date: {{ datetime }}</p>
           <div class="flex flex-col max-w-xs mt-5">
-          <button class="btn" ><router-link to="/homevue" class="">Vue.js</router-link></button>
+          <router-link to="/homevue" class="btn text-center">Vue.js</router-link>
           <button class="btn" @click="opne">Open GitHub</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
+
+
 export default {
   data() {
     return {
-      realTime: "",
+      name:"Jakkapong Praditthanachot",
     };
   },
   methods: {

@@ -25,22 +25,10 @@
     <!-- 00000000000000000000000000000000000000000000000000000000000000000 -->
     
     <div class="flex flex-wrap justify-center ">
-      <note-card v-for="notes in NoteBooks" :key="notes.datetime">
-        <div class="flex p-0 border-b">
-          <span class="font-mono text-sm">Date: {{ notes.datetime }}</span>
-          <button class="ml-auto">
-            <span class="material-icons">edit</span>
-          </button>
-          <button @click="deleteData(notes.id)" class="ml-auto">
-            <i class="material-icons">delete</i>
-          </button>
-        </div>
-        <ul>
-          <li>
-            <span>{{ notes.note }}</span>
-          </li>
-        </ul>
-      </note-card>
+      <div class="container p-4 max-w-xs shadow rounded m-4 dark:bg-gray-800 dark:text-gray-200" 
+        v-for="notes in NoteBooks" :key="notes.datetime">
+      <note-item :notes="notes" @click-edit="showData" @click-delete="deleteData" />
+      </div>
     </div>
 
 </template>
@@ -70,12 +58,10 @@ export default {
         //   datetime: time.toLocaleString("en-GB", { hour12: true }),
         //   note: this.noteText,
         // });
-       
       this.addNewNote({
             datetime: time.toLocaleString("en-GB", { hour12: true }),
             note: this.noteText,
       });
-      
       }
       this.noteText = "";
       this.datetime = "";
@@ -98,8 +84,6 @@ export default {
       this.noteText = oldNote.note;
       this.datetime = oldNote.datetime;
     },
-
-    
 
     async getNoteResult() {
       try {
