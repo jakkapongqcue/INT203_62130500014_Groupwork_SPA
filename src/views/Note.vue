@@ -35,6 +35,7 @@
 
 <script>
 import AddCard from "@/components/AddCard.vue";
+const axios = require("axios");
 
 export default {
   components: {
@@ -130,17 +131,28 @@ export default {
       }
     },
 
-    async deleteData(deleteid) {
-      try {
-        await fetch(`${this.url}/${deleteid}`, {
-          method: "DELETE",
-        });
+    //  deleteData(deleteid) {
+    //   try {
+    //     await fetch(`${this.url}/${deleteid}`, {
+    //       method: "DELETE",
+    //     });
+    //     this.NoteBooks = this.NoteBooks.filter(
+    //       (suvrey) => suvrey.id !== deleteid
+    //     );
+    //   } catch (error) {
+    //     console.log(`Could not save! ${error}`);
+    //   }
+    // },
+    
+    deleteData(id){
+      axios.delete(this.url + '/' + id).then((response) => {
+        return response.data
+      }).catch((error) => {
+        console.log(error)
+      }).then(() => {
         this.NoteBooks = this.NoteBooks.filter(
-          (suvrey) => suvrey.id !== deleteid
-        );
-      } catch (error) {
-        console.log(`Could not save! ${error}`);
-      }
+        (note) => note.id !== id);
+      })
     },
 
     async addNewNote(newNote) {

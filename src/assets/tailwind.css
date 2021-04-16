@@ -3,7 +3,7 @@
  @tailwind utilities;
 
  .navbar {
-     @apply flex justify-center items-center fixed w-full space-x-4 p-4 top-0 h-16 px-4 font-mono bg-gray-100 dark:bg-gray-800 dark:text-white transition-colors duration-700 ease-out
+     @apply flex justify-center items-center fixed w-full space-x-4 p-4 top-0 h-16 px-4 font-mono bg-gray-200 dark:bg-gray-800 dark:text-white transition-colors duration-700 ease-out
  }
 
  .light-dark-btn {
@@ -19,7 +19,7 @@
  }
 
  .bg-darkteme {
-     @apply dark:bg-gray-900 dark:text-gray-300 bg-white transition-colors duration-700 ease-out
+     @apply dark:bg-gray-900 dark:text-gray-300 bg-gray-100 transition-colors duration-700 ease-out
  }
 
  .textArea{
