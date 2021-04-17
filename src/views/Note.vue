@@ -22,8 +22,6 @@
       </form>
     </add-card>
 
-    <!-- 00000000000000000000000000000000000000000000000000000000000000000 -->
-    
     <div class="flex flex-wrap justify-center ">
       <div class="container p-4 max-w-xs shadow rounded m-4 dark:bg-gray-800 dark:text-gray-200" 
         v-for="notes in NoteBooks" :key="notes.datetime">
@@ -49,6 +47,7 @@ export default {
       datetime: "",
       invalidInput: false,
       NoteBooks: [],
+      isEdit: false,
     };
   },
   methods: {
@@ -56,10 +55,6 @@ export default {
       this.invalidInput = this.noteText === "" ? true : false;
       var time = new Date();
       if (this.noteText !== "") {
-        // this.NoteBooks.push({
-        //   datetime: time.toLocaleString("en-GB", { hour12: true }),
-        //   note: this.noteText,
-        // });
         if (this.isEdit) {
           this.editNote({
             id: this.editId,
@@ -75,11 +70,6 @@ export default {
       }
       this.noteText = "";
       this.datetime = "";
-
-      //   for (const i of this.NoteBooks) {
-      //     console.log(`date-time: ${i.datetime}  note: ${i.note}`);
-      //   }
-      //   console.log("yess");
     },
 
     validating() {
@@ -94,33 +84,6 @@ export default {
       this.noteText = oldNote.note;
       this.datetime = oldNote.datetime;
     },
-
-    // async editNote(editingNote) {
-    //   try {
-    //     const res = await fetch(`${this.url}/${editingNote.id}`, {
-    //       method: "PUT",
-    //       headers: {
-    //         "content-type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         note: editingNote.note,
-    //         datetime: editingNote.datetime,
-    //       }),
-    //     });
-    //     const data = await res.json();
-    //     this.NoteBooks = this.NoteBooks.map((survey) =>
-    //       survey.id === editingNote.id
-    //         ? { ...survey, note: data.note, datetime: data.datetime }
-    //         : survey
-    //     );
-    //     this.isEdit = false;
-    //     this.editId = "";
-    //     this.noteText = "";
-    //     this.datetime = "";
-    //   } catch (error) {
-    //     console.log(`Could not edit! ${error}`);
-    //   }
-    // },
 
     editNote(editingNote) {
       axios
@@ -145,19 +108,6 @@ export default {
         });
     },
 
-    // async deleteData(deleteid) {
-    //   try {
-    //     await fetch(`${this.url}/${deleteid}`, {
-    //       method: "DELETE",
-    //     });
-    //     this.NoteBooks = this.NoteBooks.filter(
-    //       (suvrey) => suvrey.id !== deleteid
-    //     );
-    //   } catch (error) {
-    //     console.log(`Could not save! ${error}`);
-    //   }
-    // },
-
     deleteData(id) {
       axios
         .delete(`${this.url}/${id}`)
@@ -171,26 +121,6 @@ export default {
           console.log(error);
         });
     },
-
-    //   async addNewNote(newNote) {
-    //     try {
-    //       const res = await fetch(this.url, {
-    //         method: "POST",
-    //         headers: {
-    //           "content-type": "application/json",
-    //         },
-    //         body: JSON.stringify({
-    //           note: newNote.note,
-    //           datetime: newNote.datetime,
-    //         }),
-    //       });
-    //       const data = await res.json();
-    //       this.NoteBooks = [...this.NoteBooks, data];
-    //     } catch (error) {
-    //       console.log(`Could not save! ${error}`);
-    //     }
-    //   },
-    // },
 
     addNewNote(newNote) {
       axios
@@ -206,16 +136,6 @@ export default {
           console.log(error);
         });
     },
-
-    // async getNoteResult() {
-    //   try {
-    //     const res = await fetch(this.url);
-    //     const data = res.json();
-    //     return data;
-    //   } catch (error) {
-    //     console.log(`Could not save! ${error}`);
-    //   }
-    // },
 
     getNoteResult() {
       axios
@@ -233,5 +153,6 @@ export default {
   created() {
     this.NoteBooks = this.getNoteResult();
   },
+  
 };
 </script>
