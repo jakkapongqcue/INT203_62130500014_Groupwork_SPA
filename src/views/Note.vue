@@ -80,7 +80,7 @@ export default {
       //   }
       //   console.log("yess");
     },
-  
+
     validating() {
       this.invalidInput = this.noteText === "" ? true : false;
     },
@@ -94,44 +94,57 @@ export default {
       this.datetime = oldNote.datetime;
     },
 
-    async editNote(editingNote) {
-      try {
-        const res = await fetch(`${this.url}/${editingNote.id}`, {
-          method: "PUT",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            note: editingNote.note,
-            datetime: editingNote.datetime,
-          }),
+    // async editNote(editingNote) {
+    //   try {
+    //     const res = await fetch(`${this.url}/${editingNote.id}`, {
+    //       method: "PUT",
+    //       headers: {
+    //         "content-type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         note: editingNote.note,
+    //         datetime: editingNote.datetime,
+    //       }),
+    //     });
+    //     const data = await res.json();
+    //     this.NoteBooks = this.NoteBooks.map((survey) =>
+    //       survey.id === editingNote.id
+    //         ? { ...survey, note: data.note, datetime: data.datetime }
+    //         : survey
+    //     );
+    //     this.isEdit = false;
+    //     this.editId = "";
+    //     this.noteText = "";
+    //     this.datetime = "";
+    //   } catch (error) {
+    //     console.log(`Could not edit! ${error}`);
+    //   }
+    // },
+
+    editNote(editingNote) {
+      axios
+        .put(`${this.url}/${editingNote.id}`, {
+          note: editingNote.note,
+          datetime: editingNote.datetime,
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .then((response) => {
+          this.NoteBooks = this.NoteBooks.map((nb) =>
+            nb.id === editingNote.id
+              ? { ...nb, note: response.data.note, datetime: response.data.datetime }
+              : nb
+          );
+          this.isEdit = false;
+          this.editId = "";
+          this.noteText = "";
+          this.datetime = "";
+          return response.data;
         });
-        const data = await res.json();
-        this.NoteBooks = this.NoteBooks.map((survey) =>
-          survey.id === editingNote.id
-            ? { ...survey, note: data.note, datetime: data.datetime }
-            : survey
-        );
-        this.isEdit = false;
-        this.editId = "";
-        this.noteText = "";
-        this.datetime = "";
-      } catch (error) {
-        console.log(`Could not edit! ${error}`);
-      }
     },
 
-    async getNoteResult() {
-      try {
-        const res = await fetch(this.url);
-        const data = res.json();
-        return data;
-      } catch (error) {
-        console.log(`Could not save! ${error}`);
-      }
-    },
-
-    //  deleteData(deleteid) {
+    // async deleteData(deleteid) {
     //   try {
     //     await fetch(`${this.url}/${deleteid}`, {
     //       method: "DELETE",
@@ -143,42 +156,81 @@ export default {
     //     console.log(`Could not save! ${error}`);
     //   }
     // },
-    
-    deleteData(id){
-      axios.delete(this.url + '/' + id).then((response) => {
-        return response.data
-      }).catch((error) => {
-        console.log(error)
-      }).then(() => {
-        this.NoteBooks = this.NoteBooks.filter(
-        (note) => note.id !== id);
-      })
+
+    deleteData(id) {
+      axios
+        .delete(`${this.url}/${id}`)
+        .then((response) => {
+          return response.data;
+        })
+        .then(() => {
+          this.NoteBooks = this.NoteBooks.filter((n) => n.id !== id);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
-    async addNewNote(newNote) {
-      try {
-        const res = await fetch(this.url, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            note: newNote.note,
-            datetime: newNote.datetime,
-          }),
+    //   async addNewNote(newNote) {
+    //     try {
+    //       const res = await fetch(this.url, {
+    //         method: "POST",
+    //         headers: {
+    //           "content-type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //           note: newNote.note,
+    //           datetime: newNote.datetime,
+    //         }),
+    //       });
+    //       const data = await res.json();
+    //       this.NoteBooks = [...this.NoteBooks, data];
+    //     } catch (error) {
+    //       console.log(`Could not save! ${error}`);
+    //     }
+    //   },
+    // },
+
+    addNewNote(newNote) {
+      axios
+        .post(this.url, {
+          note: newNote.note,
+          datetime: newNote.datetime,
+        })
+        .then((response) => {
+          this.NoteBooks = [...this.NoteBooks, response.data];
+          return response.data;
+        })
+        .catch((error) => {
+          console.log(error);
         });
-        const data = await res.json();
-        this.NoteBooks = [...this.NoteBooks, data];
-      } catch (error) {
-        console.log(`Could not save! ${error}`);
-      }
+    },
+
+    // async getNoteResult() {
+    //   try {
+    //     const res = await fetch(this.url);
+    //     const data = res.json();
+    //     return data;
+    //   } catch (error) {
+    //     console.log(`Could not save! ${error}`);
+    //   }
+    // },
+
+    getNoteResult() {
+      axios
+        .get(this.url)
+        .then((response) => {
+          this.NoteBooks = response.data;
+          return response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 
-  async created() {
-    this.NoteBooks = await this.getNoteResult();
+  created() {
+    this.NoteBooks = this.getNoteResult();
   },
 };
 </script>
-
-<style></style>
