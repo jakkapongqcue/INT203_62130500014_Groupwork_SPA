@@ -17,10 +17,11 @@
 
 <script>
 export default {
-      methods: {
-        switchMode(){
-            this.$emit('switch-mode')
-        },
+  name: "navbar",
+  methods: {
+    switchMode() {
+      this.$emit("switch-mode");
     },
-}
+  },
+};
 </script>

@@ -38,6 +38,7 @@ import AddCard from "@/components/AddCard.vue";
 const axios = require("axios");
 
 export default {
+  name: "note",
   components: {
     AddCard,
   },

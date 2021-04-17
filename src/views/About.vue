@@ -37,6 +37,7 @@
 const axios = require("axios");
 
 export default {
+  name: "about",
   data() {
     return {
       name: "Jakkapong Praditthanachot",
