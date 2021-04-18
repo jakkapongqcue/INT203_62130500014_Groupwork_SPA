@@ -25,7 +25,7 @@
     <div class="flex flex-wrap justify-center ">
       <div class="container p-4 max-w-xs shadow rounded m-4 dark:bg-gray-800 dark:text-gray-200" 
         v-for="notes in NoteBooks" :key="notes.datetime">
-      <note-item :notes="notes" @click-edit="showData" @click-delete="deleteData" />
+      <note-item :noteb="notes" @click-edit="showData" @click-delete="deleteData" />
       </div>
     </div>
 

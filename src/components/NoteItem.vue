@@ -1,32 +1,32 @@
 <template>
     <div class="flex p-0 border-b">
-        <span class="font-mono text-sm">Date: {{ notes.datetime }}</span>
-        <button @click="showData(notes)" class="ml-auto">
+        <span class="font-mono text-sm">Date: {{ noteb.datetime }}</span>
+        <button @click="showData(noteb)" class="ml-auto">
         <span class="material-icons">edit</span>
         </button>
-        <button @click="deleteData(notes.id)" class="ml-auto">
+        <button @click="deleteData(noteb.id)" class="ml-auto">
         <i class="material-icons">delete</i>
         </button>
     </div>
     <ul>
         <li>
-        <span>{{ notes.note }}</span>
+        <span>{{ noteb.note }}</span>
         </li>
     </ul>
 </template>
 
 <script>
 export default {
-    name: "note item",
+    name: "noteb item",
     props:{
-        notes:Object,
+        noteb:Object,
     },
     methods: {
         showData(){
-            this.$emit('click-edit',this.notes)
+            this.$emit('click-edit',this.noteb)
         },
         deleteData(){
-            this.$emit('click-delete', this.notes.id)
+            this.$emit('click-delete', this.noteb.id)
         }
     },
 }
