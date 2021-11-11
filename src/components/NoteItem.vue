@@ -10,7 +10,7 @@
     </div>
     <ul>
         <li>
-        <span>{{ noteb.note }}</span>
+        <pre>{{ noteb.note }}</pre>
         </li>
     </ul>
 </template>
