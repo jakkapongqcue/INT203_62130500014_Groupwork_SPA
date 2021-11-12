@@ -42,14 +42,14 @@ export default {
     return {
       name: "Jakkapong Praditthanachot",
       dataNote: [],
-      url: "https://618dd9b1883f950008433203--gracious-davinci-2b6e1e.netlify.app/db.json",
+      url: "https://gracious-davinci-2b6e1e.netlify.app/db.json",
     };
   },
   methods: {
     opne() {
       if (confirm("open github.com/jakkapongqcue")) {
         window.open(
-          "https://gracious-davinci-2b6e1e.netlify.app/db.json"
+          "https://github.com/jakkapongqcue/INT203_62130500014_Groupwork_SPA"
         );
       } else {
         close;
