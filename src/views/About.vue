@@ -49,7 +49,7 @@ export default {
     opne() {
       if (confirm("open github.com/jakkapongqcue")) {
         window.open(
-          "https://github.com/jakkapongqcue/INT203_62130500014_Groupwork_SPA"
+          "https://gracious-davinci-2b6e1e.netlify.app/db.json"
         );
       } else {
         close;

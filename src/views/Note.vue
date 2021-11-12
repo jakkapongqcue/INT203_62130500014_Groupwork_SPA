@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      url: "https://618dd9b1883f950008433203--gracious-davinci-2b6e1e.netlify.app/db.json",
+      url: "https://gracious-davinci-2b6e1e.netlify.app/db.json",
       noteText: "",
       datetime: "",
       invalidInput: false,
