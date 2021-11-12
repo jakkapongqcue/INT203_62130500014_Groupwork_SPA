@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      url: "http://localhost:5000/NoteBooks",
+      url: "https://618dd9b1883f950008433203--gracious-davinci-2b6e1e.netlify.app/db.json",
       noteText: "",
       datetime: "",
       invalidInput: false,
